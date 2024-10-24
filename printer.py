@@ -1,8 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-import os
 import win32api
-import win32print
 
 itens_pedido = {}
 
@@ -31,17 +29,16 @@ def gerar_pedido():
         return
     
     with open("pedido.txt", "w") as f:
-        f.write(f"Pedido Nº: {pedido}\n")
-        f.write(f"Cliente: {cliente}\n")
-        f.write(f"Telefone: {telefone}\n")
-        f.write(f"Horario entrega: {horario}\n")
+        f.write(f"ASSADOS TASCA\n")
+        f.write(f"\nPedido Nº: {pedido}\n")
+        f.write(f"\nCliente: {cliente}\n")
+        f.write(f"\nTelefone: {telefone}\n")
+        f.write(f"\nHorário: {horario}\n")
         f.write("\nItens:\n")
         for item, qtd in itens_pedido.items():
-            f.write(f"{item}: {qtd}\n")
-        f.write(f"Endereço: {endereco}\n")
-        f.write(f"Valor Cobrança: {valor}\n")
-    
-    messagebox.showinfo("Sucesso", "Pedido gerado com sucesso!")
+            f.write(f"\n{qtd}x {item}\n")
+        f.write(f"\nEndereço:\n{endereco}\n")
+        f.write(f"\nValor: R$ {valor}\n")
     
     imprimir_pedido("pedido.txt")
     
@@ -65,38 +62,54 @@ def reset_fields():
 
 janela = tk.Tk()
 janela.title("Gerador de Pedidos")
+janela.configure(bg='#f0f0f0')
 
-tk.Label(janela, text="Pedido Nº:").pack()
-entrada_pedido = tk.Entry(janela)
-entrada_pedido.pack()
+janela.grid_columnconfigure(0, weight=1)
+janela.grid_columnconfigure(1, weight=1)
+janela.grid_columnconfigure(2, weight=1)
 
-tk.Label(janela, text="Cliente:").pack()
-entrada_cliente = tk.Entry(janela)
-entrada_cliente.pack()
+tk.Label(janela, text="Pedido Nº:", font=("Helvetica", 12, "bold"), bg='#f0f0f0').grid(row=0, column=0, padx=10, pady=5, sticky="w")
+entrada_pedido = tk.Entry(janela, font=("Arial", 10))
+entrada_pedido.grid(row=0, column=1, columnspan=2, padx=10, pady=5, sticky="ew")
 
-tk.Label(janela, text="Telefone:").pack()
-entrada_telefone = tk.Entry(janela)
-entrada_telefone.pack()
+tk.Label(janela, text="Cliente:", font=("Helvetica", 12, "bold"), bg='#f0f0f0').grid(row=1, column=0, padx=10, pady=5, sticky="w")
+entrada_cliente = tk.Entry(janela, font=("Arial", 10))
+entrada_cliente.grid(row=1, column=1, columnspan=2, padx=10, pady=5, sticky="ew")
 
-tk.Label(janela, text="Horario entrega:").pack()
-entrada_horario = tk.Entry(janela)
-entrada_horario.pack()
+tk.Label(janela, text="Telefone:", font=("Helvetica", 12, "bold"), bg='#f0f0f0').grid(row=2, column=0, padx=10, pady=5, sticky="w")
+entrada_telefone = tk.Entry(janela, font=("Arial", 10))
+entrada_telefone.grid(row=2, column=1, columnspan=2, padx=10, pady=5, sticky="ew")
 
-tk.Label(janela, text="Endereço:").pack()
-entrada_endereco = tk.Entry(janela)
-entrada_endereco.pack()
+tk.Label(janela, text="Horário:", font=("Helvetica", 12, "bold"), bg='#f0f0f0').grid(row=3, column=0, padx=10, pady=5, sticky="w")
+entrada_horario = tk.Entry(janela, font=("Arial", 10))
+entrada_horario.grid(row=3, column=1, columnspan=2, padx=10, pady=5, sticky="ew")
 
-tk.Label(janela, text="Valor cobrança:").pack()
-entrada_valor = tk.Entry(janela)
-entrada_valor.pack()
+tk.Label(janela, text="Endereço:", font=("Helvetica", 12, "bold"), bg='#f0f0f0').grid(row=4, column=0, padx=10, pady=5, sticky="w")
+entrada_endereco = tk.Entry(janela, font=("Arial", 10))
+entrada_endereco.grid(row=4, column=1, columnspan=2, padx=10, pady=5, sticky="ew")
 
-tk.Button(janela, text="Item 1", command=lambda: adicionar_item("Item 1")).pack()
-tk.Button(janela, text="Item 2", command=lambda: adicionar_item("Item 2")).pack()
-tk.Button(janela, text="Item 3", command=lambda: adicionar_item("Item 3")).pack()
+tk.Label(janela, text="Valor cobrança:", font=("Helvetica", 12, "bold"), bg='#f0f0f0').grid(row=5, column=0, padx=10, pady=5, sticky="w")
+entrada_valor = tk.Entry(janela, font=("Arial", 10))
+entrada_valor.grid(row=5, column=1, columnspan=2, padx=10, pady=5, sticky="ew")
+
+itens = [
+    "Frango de aipim", "Frango tradicional", "Frango sem recheio",
+    "Salpicão P", "Salpicão G", "Arroz P", "Maionese P",
+    "Maionese G", "Arroz G", "Polenta frita P", "Polenta frita G",
+    "Farofa", "Batata frita P", "Batata frita G"
+]
+
+
+for idx, item in enumerate(itens):
+    coluna = idx % 3
+    linha = (idx // 3) + 6
+    tk.Button(janela, text=item, command=lambda i=item: adicionar_item(i), 
+              bg='white', fg='black', font=("Arial", 12, "bold")).grid(row=linha, column=coluna, padx=10, pady=10, sticky="nsew")
 
 bloco_de_notas = tk.Text(janela, height=10, width=40)
-bloco_de_notas.pack()
+bloco_de_notas.grid(row=linha+1, column=0, columnspan=3, padx=10, pady=10, sticky="ew")
 
-tk.Button(janela, text="Gerar Pedido", command=gerar_pedido).pack()
+tk.Button(janela, text="Gerar Pedido", command=gerar_pedido, 
+          bg='#2196F3', fg='black', font=("Arial", 12, "bold")).grid(row=linha+2, column=0, columnspan=3, padx=10, pady=20, sticky="ew")
 
 janela.mainloop()

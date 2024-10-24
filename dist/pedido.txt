@@ -1,0 +1,22 @@
+ASSADOS TASCA
+
+Pedido Nº: 1
+
+Cliente: Pedro
+
+Telefone: 984699328
+
+Horário: 11:45
+
+Itens:
+
+1x Frango de aipim
+
+1x Maionese P
+
+1x Batata frita P
+
+Endereço:
+ Rua Elias Schmidt
+
+Valor: R$ 98,00
