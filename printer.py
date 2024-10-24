@@ -1,66 +1,101 @@
 import tkinter as tk
 from tkinter import messagebox
+import os
+import win32api
+import win32print
 
-orderItems = {}
+itens_pedido = {}
 
-def addItem(item):
-    if item in orderItems:
-        orderItems[item] += 1
+def adicionar_item(nome_item):
+    if nome_item in itens_pedido:
+        itens_pedido[nome_item] += 1
     else:
-        orderItems[item] = 1
-    notePadUpdate()
+        itens_pedido[nome_item] = 1
+    atualizar_bloco_de_notas()
 
-def notePadUpdate():
-    notePad.delete('1.0', tk.END)
-    for item, qtd in orderItems.items():
-        notePad.insert(tk.END, f"{item}: {qtd}\n")
+def atualizar_bloco_de_notas():
+    bloco_de_notas.delete('1.0', tk.END)
+    for item, qtd in itens_pedido.items():
+        bloco_de_notas.insert(tk.END, f"{item}: {qtd}\n")
 
 def gerar_pedido():
-    name = StartName.get()
-    address = StartAddress.get()
-    price = StartPrice.get()
-    change = StartChange.get()
-    
-    if not name or not address or not price or not change:
+    pedido = entrada_pedido.get()
+    cliente = entrada_cliente.get()
+    telefone = entrada_telefone.get()
+    horario = entrada_horario.get()
+    endereco = entrada_endereco.get()
+    valor = entrada_valor.get()
+        
+    if not cliente or not endereco or not valor or not pedido:
         messagebox.showerror("Erro", "Todos os campos devem ser preenchidos")
         return
     
     with open("pedido.txt", "w") as f:
-        f.write(f"Nome: {name}\n")
-        f.write(f"Endereço: {address}\n")
-        f.write(f"Preço: {price}\n")
-        f.write(f"Troco: {change}\n")
+        f.write(f"Pedido Nº: {pedido}\n")
+        f.write(f"Cliente: {cliente}\n")
+        f.write(f"Telefone: {telefone}\n")
+        f.write(f"Horario entrega: {horario}\n")
         f.write("\nItens:\n")
-        for item, qtd in orderItems.items():
+        for item, qtd in itens_pedido.items():
             f.write(f"{item}: {qtd}\n")
+        f.write(f"Endereço: {endereco}\n")
+        f.write(f"Valor Cobrança: {valor}\n")
     
     messagebox.showinfo("Sucesso", "Pedido gerado com sucesso!")
+    
+    imprimir_pedido("pedido.txt")
+    
+    reset_fields()
+
+def imprimir_pedido(arquivo):
+    try:
+        win32api.ShellExecute(0, "print", arquivo, None, ".", 0)
+    except Exception as e:
+        messagebox.showerror("Erro", f"Erro ao imprimir: {str(e)}")
+
+def reset_fields():
+    entrada_pedido.delete(0, tk.END)
+    entrada_cliente.delete(0, tk.END)
+    entrada_telefone.delete(0, tk.END)
+    entrada_horario.delete(0, tk.END)
+    entrada_endereco.delete(0, tk.END)
+    entrada_valor.delete(0, tk.END)
+    itens_pedido.clear()
+    atualizar_bloco_de_notas()
 
 janela = tk.Tk()
 janela.title("Gerador de Pedidos")
 
-tk.Label(janela, text="name:").pack()
-StartName = tk.Entry(janela)
-StartName.pack()
+tk.Label(janela, text="Pedido Nº:").pack()
+entrada_pedido = tk.Entry(janela)
+entrada_pedido.pack()
+
+tk.Label(janela, text="Cliente:").pack()
+entrada_cliente = tk.Entry(janela)
+entrada_cliente.pack()
+
+tk.Label(janela, text="Telefone:").pack()
+entrada_telefone = tk.Entry(janela)
+entrada_telefone.pack()
+
+tk.Label(janela, text="Horario entrega:").pack()
+entrada_horario = tk.Entry(janela)
+entrada_horario.pack()
 
 tk.Label(janela, text="Endereço:").pack()
-StartAddress = tk.Entry(janela)
-StartAddress.pack()
+entrada_endereco = tk.Entry(janela)
+entrada_endereco.pack()
 
-tk.Label(janela, text="Preço:").pack()
-StartPrice = tk.Entry(janela)
-StartPrice.pack()
+tk.Label(janela, text="Valor cobrança:").pack()
+entrada_valor = tk.Entry(janela)
+entrada_valor.pack()
 
-tk.Label(janela, text="Troco:").pack()
-StartChange = tk.Entry(janela)
-StartChange.pack()
+tk.Button(janela, text="Item 1", command=lambda: adicionar_item("Item 1")).pack()
+tk.Button(janela, text="Item 2", command=lambda: adicionar_item("Item 2")).pack()
+tk.Button(janela, text="Item 3", command=lambda: adicionar_item("Item 3")).pack()
 
-tk.Button(janela, text="Item 1", command=lambda: addItem("Item 1")).pack()
-tk.Button(janela, text="Item 2", command=lambda: addItem("Item 2")).pack()
-tk.Button(janela, text="Item 3", command=lambda: addItem("Item 3")).pack()
-
-notePad = tk.Text(janela, height=10, width=40)
-notePad.pack()
+bloco_de_notas = tk.Text(janela, height=10, width=40)
+bloco_de_notas.pack()
 
 tk.Button(janela, text="Gerar Pedido", command=gerar_pedido).pack()
 
