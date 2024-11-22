@@ -3,18 +3,29 @@ from tkinter import messagebox
 import win32api
 
 itens_pedido = {}
+add_ordem = []
 
-def adicionar_item(nome_item):
+def add_item(nome_item):
     if nome_item in itens_pedido:
         itens_pedido[nome_item] += 1
     else:
         itens_pedido[nome_item] = 1
-    atualizar_bloco_de_notas()
+    add_ordem.append(nome_item)
+    atualizar_note()
 
-def atualizar_bloco_de_notas():
-    bloco_de_notas.delete('1.0', tk.END)
+def atualizar_note():
+    note.delete('1.0', tk.END)
     for item, qtd in itens_pedido.items():
-        bloco_de_notas.insert(tk.END, f"{item}: {qtd}\n")
+        note.insert(tk.END, f"{item}: {qtd}\n")
+        
+def remover_ultimo_item():
+    if add_ordem:
+        ultimo_item = add_ordem.pop()
+        if itens_pedido[ultimo_item] > 1:
+            itens_pedido[ultimo_item] -= 1
+        else:
+            del itens_pedido[ultimo_item]
+        atualizar_note()
 
 def gerar_pedido():
     pedido = entrada_pedido.get()
@@ -23,8 +34,9 @@ def gerar_pedido():
     horario = entrada_horario.get()
     endereco = entrada_endereco.get()
     valor = entrada_valor.get()
+    carne = entrada_carne.get()
         
-    if not cliente or not endereco or not valor or not pedido:
+    if not endereco or not pedido:
         messagebox.showerror("Erro", "Todos os campos devem ser preenchidos")
         return
     
@@ -37,11 +49,11 @@ def gerar_pedido():
         f.write("\nItens:\n")
         for item, qtd in itens_pedido.items():
             f.write(f"\n{qtd}x {item}\n")
+        f.write(f"\nCarne:\n{carne}\n")
         f.write(f"\nEndereço:\n{endereco}\n")
         f.write(f"\nValor: R$ {valor}\n")
     
     imprimir_pedido("pedido.txt")
-    
     reset_fields()
 
 def imprimir_pedido(arquivo):
@@ -57,16 +69,16 @@ def reset_fields():
     entrada_horario.delete(0, tk.END)
     entrada_endereco.delete(0, tk.END)
     entrada_valor.delete(0, tk.END)
+    entrada_carne.delete(0, tk.END)
     itens_pedido.clear()
-    atualizar_bloco_de_notas()
+    add_ordem.clear()
+    atualizar_note()
 
 janela = tk.Tk()
 janela.title("Gerador de Pedidos")
 janela.configure(bg='#f0f0f0')
 
-janela.grid_columnconfigure(0, weight=1)
-janela.grid_columnconfigure(1, weight=1)
-janela.grid_columnconfigure(2, weight=1)
+janela.grid_columnconfigure((0, 1, 2), weight=1)
 
 tk.Label(janela, text="Pedido Nº:", font=("Helvetica", 12, "bold"), bg='#f0f0f0').grid(row=0, column=0, padx=10, pady=5, sticky="w")
 entrada_pedido = tk.Entry(janela, font=("Arial", 10))
@@ -92,6 +104,10 @@ tk.Label(janela, text="Valor cobrança:", font=("Helvetica", 12, "bold"), bg='#f
 entrada_valor = tk.Entry(janela, font=("Arial", 10))
 entrada_valor.grid(row=5, column=1, columnspan=2, padx=10, pady=5, sticky="ew")
 
+tk.Label(janela, text="Carne:", font=("Helvetica", 12, "bold"), bg='#f0f0f0').grid(row=6, column=0, padx=10, pady=5, sticky="w")
+entrada_carne = tk.Entry(janela, font=("Arial", 10))
+entrada_carne.grid(row=6, column=1, columnspan=2, padx=10, pady=5, sticky="ew")
+
 itens = [
     "Frango de aipim", "Frango tradicional", "Frango sem recheio",
     "Salpicão P", "Salpicão G", "Arroz P", "Maionese P",
@@ -99,17 +115,19 @@ itens = [
     "Farofa", "Batata frita P", "Batata frita G"
 ]
 
-
 for idx, item in enumerate(itens):
     coluna = idx % 3
-    linha = (idx // 3) + 6
-    tk.Button(janela, text=item, command=lambda i=item: adicionar_item(i), 
+    linha = (idx // 3) + 7
+    tk.Button(janela, text=item, command=lambda i=item: add_item(i), 
               bg='white', fg='black', font=("Arial", 12, "bold")).grid(row=linha, column=coluna, padx=10, pady=10, sticky="nsew")
 
-bloco_de_notas = tk.Text(janela, height=10, width=40)
-bloco_de_notas.grid(row=linha+1, column=0, columnspan=3, padx=10, pady=10, sticky="ew")
+note = tk.Text(janela, height=10, width=40)
+note.grid(row=linha+1, column=0, columnspan=3, padx=10, pady=10, sticky="ew")
+
+tk.Button(janela, text="Remover Item", command=remover_ultimo_item, 
+          bg='red', fg='black', font=("Arial", 12, "bold")).grid(row=linha+2, column=0, columnspan=3, padx=10, pady=5, sticky="ew")
 
 tk.Button(janela, text="Gerar Pedido", command=gerar_pedido, 
-          bg='#2196F3', fg='black', font=("Arial", 12, "bold")).grid(row=linha+2, column=0, columnspan=3, padx=10, pady=20, sticky="ew")
+          bg='#2196F3', fg='black', font=("Arial", 12, "bold")).grid(row=linha+3, column=0, columnspan=3, padx=10, pady=5, sticky="ew")
 
 janela.mainloop()

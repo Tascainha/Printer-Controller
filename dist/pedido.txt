@@ -1,22 +1,25 @@
 ASSADOS TASCA
 
-Pedido Nº: 1
+Pedido Nº: 48
 
-Cliente: Pedro
+Cliente: Tasca
 
-Telefone: 984699328
+Telefone: 948882508
 
-Horário: 11:45
+Horário: 13:30
 
 Itens:
 
-1x Frango de aipim
+1x Frango tradicional
 
-1x Maionese P
+1x Maionese G
 
 1x Batata frita P
 
-Endereço:
- Rua Elias Schmidt
+Carne:
+500g maminha
 
-Valor: R$ 98,00
+Endereço:
+Rua dois ao lado da rua um
+
+Valor: R$ 98
