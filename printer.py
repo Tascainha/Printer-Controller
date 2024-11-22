@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 import win32api
+from tkinter import PhotoImage
+from PIL import Image, ImageTk
 
 itens_pedido = {}
 add_ordem = []
@@ -77,6 +79,11 @@ def reset_fields():
 janela = tk.Tk()
 janela.title("Gerador de Pedidos")
 janela.configure(bg='#f0f0f0')
+
+imagem = Image.open("icon.jpeg")
+imagem = imagem.resize((32, 32))
+icone = ImageTk.PhotoImage(imagem)
+janela.iconphoto(True, icone)
 
 janela.grid_columnconfigure((0, 1, 2), weight=1)
 
