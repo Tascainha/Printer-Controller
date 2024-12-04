@@ -84,7 +84,7 @@ imagem = Image.open("icon.jpeg")
 imagem = imagem.resize((32, 32))
 icone = ImageTk.PhotoImage(imagem)
 janela.iconphoto(True, icone)
-
+# "scheib"
 janela.grid_columnconfigure((0, 1, 2), weight=1)
 
 tk.Label(janela, text="Pedido Nº:", font=("Helvetica", 12, "bold"), bg='#f0f0f0').grid(row=0, column=0, padx=10, pady=5, sticky="w")
