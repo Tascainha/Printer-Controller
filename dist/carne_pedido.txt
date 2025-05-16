@@ -1,0 +1,7 @@
+ASSADOS TASCA
+Pedido Nº: 30
+Cliente: tasca
+Horário: 123
+
+Carnes:
+- maminha

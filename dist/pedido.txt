@@ -1,25 +1,30 @@
 ASSADOS TASCA
 
-Pedido Nº: 48
+Pedido Nº: 30
 
-Cliente: Tasca
+Cliente: tasca
 
-Telefone: 948882508
+Telefone: 123
 
-Horário: 13:30
+Horário: 123
 
 Itens:
 
-1x Frango tradicional
+1x maminha
 
-1x Maionese G
+1x coca 2l
 
-1x Batata frita P
+1x Frango de aipim
 
-Carne:
-500g maminha
+1x Salpicão G
+
+1x Arroz P
 
 Endereço:
-Rua dois ao lado da rua um
+asd
 
-Valor: R$ 98
+Valor: R$ 120
+
+Taxa entrega: R$ 5,00
+
+Pago: Sim
