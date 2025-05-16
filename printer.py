@@ -179,7 +179,7 @@ itens = [
     "Frango Tradicional", "Salpicão G", "Salpicão P",
     "Frango S/Recheio", "Batata G", "Batata P",
     "Farofa", "Polenta G", "Polenta P",
-    "Arroz", "Arroz P"
+    "Arroz G", "Arroz P"
 ]
 
 linha_itens = linha_pago + 1
