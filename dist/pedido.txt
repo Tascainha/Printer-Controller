@@ -1,30 +1,28 @@
 ASSADOS TASCA
 
-Pedido Nº: 30
+Pedido Nº: 31
 
 Cliente: tasca
 
-Telefone: 123
+Telefone: tasca
 
-Horário: 123
+Horário: tasca
 
 Itens:
 
-1x maminha
+1x tasca
 
-1x coca 2l
+1x Maionese G
 
 1x Frango de aipim
-
-1x Salpicão G
 
 1x Arroz P
 
 Endereço:
-asd
+tasca
 
-Valor: R$ 120
+Valor: R$ tasca
 
-Taxa entrega: R$ 5,00
+Taxa entrega: R$ tasca
 
 Pago: Sim

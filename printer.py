@@ -43,7 +43,7 @@ def remover_ultimo_item():
         atualizar_note()
 
 def gerar_pedido():
-    pedido = numero_pedido
+    pedido = obter_proximo_numero_pedido()
     cliente = entrada_cliente.get()
     telefone = entrada_telefone.get()
     horario = entrada_horario.get()
@@ -111,8 +111,6 @@ except:
     pass
 
 janela.grid_columnconfigure((0, 1, 2), weight=1)
-
-numero_pedido = obter_proximo_numero_pedido()
 
 campos = [
     ("Cliente:", "entrada_cliente"),
