@@ -73,7 +73,7 @@ def gerar_pedido():
     imprimir_pedido("pedido.txt")
 
     if carne_separada:
-        time.sleep(1)
+        time.sleep(5)
         with open("carne_pedido.txt", "w") as f:
             f.write(f"ASSADOS TASCA\n")
             f.write(f"Pedido Nº: {pedido}\n")
