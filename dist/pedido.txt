@@ -1,28 +1,31 @@
 ASSADOS TASCA
 
-Pedido Nº: 31
+Pedido Nº: 32
 
-Cliente: tasca
+Cliente: a
 
-Telefone: tasca
+Telefone: a
 
-Horário: tasca
+Horário: a
 
 Itens:
 
-1x tasca
+2x a
 
 1x Maionese G
 
-1x Frango de aipim
+1x Batata G
 
 1x Arroz P
 
 Endereço:
-tasca
+a
 
-Valor: R$ tasca
+Valor: R$ a
 
-Taxa entrega: R$ tasca
+Taxa entrega: R$ a
 
-Pago: Sim
+Pago: Não
+
+
+

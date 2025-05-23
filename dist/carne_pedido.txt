@@ -1,7 +1,7 @@
 ASSADOS TASCA
-Pedido Nº: 31
-Cliente: tasca
-Horário: tasca
+Pedido Nº: 32
+Cliente: a
+Horário: a
 
 Carnes:
-- tasca
+- a

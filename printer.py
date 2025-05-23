@@ -69,19 +69,21 @@ def gerar_pedido():
         f.write(f"\nValor: R$ {valor}\n")
         f.write(f"\nTaxa entrega: R$ {taxa}\n")
         f.write(f"\nPago: {pago_var.get()}\n")
+        f.write(f"\n")
     
     imprimir_pedido("pedido.txt")
 
     if carne_separada:
-        time.sleep(20)
+        # time.sleep(20)
         with open("carne_pedido.txt", "w") as f:
-            f.write(f"ASSADOS TASCA\n")
+            f.write(f"\nASSADOS TASCA\n")
             f.write(f"Pedido Nº: {pedido}\n")
             f.write(f"Cliente: {cliente}\n")
             f.write(f"Horário: {horario}\n\n")
             f.write("Carnes:\n")
             for carne in carne_separada:
                 f.write(f"- {carne}\n")
+            f.write(f"\n")
         imprimir_pedido("carne_pedido.txt")
 
     reset_fields()
