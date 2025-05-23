@@ -1,4 +1,5 @@
 import tkinter as tk
+import time
 from tkinter import messagebox
 import win32api
 import os
@@ -69,20 +70,21 @@ def gerar_pedido():
         f.write(f"\nTaxa entrega: R$ {taxa}\n")
         f.write(f"\nPago: {pago_var.get()}\n")
     
-        imprimir_pedido("pedido.txt")
+    imprimir_pedido("pedido.txt")
 
-        if carne_separada:
-            with open("carne_pedido.txt", "w") as f:
-                f.write(f"ASSADOS TASCA\n")
-                f.write(f"Pedido Nº: {pedido}\n")
-                f.write(f"Cliente: {cliente}\n")
-                f.write(f"Horário: {horario}\n\n")
-                f.write("Carnes:\n")
-                for carne in carne_separada:
-                    f.write(f"- {carne}\n")
-            imprimir_pedido("carne_pedido.txt")
+    if carne_separada:
+        time.sleep(1)
+        with open("carne_pedido.txt", "w") as f:
+            f.write(f"ASSADOS TASCA\n")
+            f.write(f"Pedido Nº: {pedido}\n")
+            f.write(f"Cliente: {cliente}\n")
+            f.write(f"Horário: {horario}\n\n")
+            f.write("Carnes:\n")
+            for carne in carne_separada:
+                f.write(f"- {carne}\n")
+        imprimir_pedido("carne_pedido.txt")
 
-        reset_fields()
+    reset_fields()
 
 def imprimir_pedido(arquivo):
     try:
