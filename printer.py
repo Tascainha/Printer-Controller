@@ -1,8 +1,9 @@
 import tkinter as tk
-import time
 from tkinter import messagebox
 import win32api
+import win32print
 import os
+import time
 from PIL import Image, ImageTk
 
 itens_pedido = {}
@@ -43,6 +44,18 @@ def remover_ultimo_item():
             del itens_pedido[ultimo_item]
         atualizar_note()
 
+def esperar_impressao_concluir():
+    nome_impressora = win32print.GetDefaultPrinter()
+    handle = win32print.OpenPrinter(nome_impressora)
+    try:
+        while True:
+            jobs = win32print.EnumJobs(handle, 0, -1, 1)
+            if not jobs:
+                break
+            time.sleep(1)
+    finally:
+        win32print.ClosePrinter(handle)
+
 def gerar_pedido():
     pedido = obter_proximo_numero_pedido()
     cliente = entrada_cliente.get()
@@ -71,9 +84,9 @@ def gerar_pedido():
         f.write(f"\nPago: {pago_var.get()}\n")
     
     imprimir_pedido("pedido.txt")
+    esperar_impressao_concluir()
 
     if carne_separada:
-        time.sleep(10)
         with open("carne_pedido.txt", "w") as f:
             f.write(f"ASSADOS TASCA\n")
             f.write(f"Pedido Nº: {pedido}\n")
@@ -83,7 +96,7 @@ def gerar_pedido():
             for carne in carne_separada:
                 f.write(f"- {carne}\n")
         imprimir_pedido("carne_pedido.txt")
-
+    
     reset_fields()
 
 def imprimir_pedido(arquivo):
